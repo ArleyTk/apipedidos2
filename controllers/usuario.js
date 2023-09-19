@@ -36,11 +36,14 @@ const pedidoPost = async(req, res) => {
 //Modifcación
 const pedidoPut = async(req, res = response) => {
 
-    const {nombre, password, rol, estado} = req.body
+    const {_id, idpedido, descpedido, preciopedido, fechapedido, productospedido, clientepedido} = req.body
     let mensaje = 'Modificación exitosa'
     try{
-         await Pedido.findOneAndUpdate({nombre: nombre}, 
-            {password: password, rol:rol, estado:estado})
+         await Pedido.findOneAndUpdate({_id: _id}, {$set: {
+            idpedido:idpedido, descpedido:descpedido, preciopedido:preciopedido, fechapedido:fechapedido, productospedido: productospedido, clientepedido:clientepedido
+    }}) 
+         
+           
     }
     catch(error){
         mensaje = 'Se presentaron problemas en la modificación.'
