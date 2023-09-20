@@ -1,27 +1,27 @@
 const {response} = require('express')
 
 //Importación de los modelos
-const Permiso = require('../models/usuario')
+const Pedido = require('../models/usuario')
 
 //Método GET de la API
-const permisoGet = async(req, res = response) =>{
+const pedidoGet = async(req, res = response) =>{
     //const {nombre} = req.query //Desestructuración
 
-    //Consultar todos los permisos
-    const permisos = await Permiso.find()
+    //Consultar todos los pedudis
+    const pedidos = await Pedido.find()
 
     res.json({  //Respuesta en JSON
-        permisos
+        pedidos
     })   
 }
 
 //Método POST de la api
-const permisoPost = async(req, res) => {
+const pedidoPost = async(req, res) => {
     let mensaje = 'Inserción Exitosa'
     const body = req.query //Captura de atributos
     try {
-        const permiso = new Permiso(body) //Instanciando el objeto
-        await permiso.save() //Inserta en la colección
+        const pedido = new Pedido(body) //Instanciando el objeto
+        await pedido.save() //Inserta en la colección
     } catch (error) {
         mensaje = error
         console.log(error)
@@ -32,12 +32,12 @@ const permisoPost = async(req, res) => {
 }
 
 //Modifcación
-const permisoPut = async(req, res = response) => {
+const pedidoPut = async(req, res = response) => {
 
     const {nombre, password, rol, estado} = req.query
     let mensaje = 'Modificación exitosa'
     try{
-         await Permiso.findOneAndUpdate({nombre: nombre}, 
+         await Pedido.findOneAndUpdate({nombre: nombre}, 
             {password: password, rol:rol, estado:estado})
     }
     catch(error){
@@ -54,7 +54,7 @@ const permisoPut = async(req, res = response) => {
 
 
 module.exports = {
-    permisoGet,
-    permisoPost,
-    permisoPut
+    pedidoGet,
+    pedidoPost,
+    pedidoPut
 }
