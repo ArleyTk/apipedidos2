@@ -9,7 +9,7 @@ class Server{
     constructor(){
         this.app = express()
         this.port = process.env.PORT //Capturando variable puerto
-        this.pedidoPath = '/api/usuario' //Ruta pública
+        this.permisoPath = '/api/usuario' //Ruta pública
         this.middlewares()
         this.conectarDB()
         this.routes()
@@ -29,7 +29,7 @@ class Server{
     }
 
     routes(){
-        this.app.use(this.pedidoPath, require('../routes/usuario'))
+        this.app.use(this.permisoPath, require('../routes/usuario'))
     }
     
 

@@ -1,39 +1,25 @@
 const {Schema, model} = require('mongoose')
 
-const PedidoSchema = Schema({
-    idpedido: {
+const PermisoSchema = Schema({
+    idrol: {
         type: Number,
         unique: true,
         required: [true, 'El nombre es obligatorio']
     },
 
-    descpedido: {
+    nombrerol: {
         type: String,
         required: [true, 'el nombre es obligatorio'],
         minlength: [3, 'Debe tener mínimo 3 caracteres']
         //maxlength:  [7, 'Debe tener máximo 3 caracteres']
     },
 
-    preciopedido: {
-        type: Number,
+    descrol: {
+        type: String,
         required: true,
     },
 
-    fechapedido: {
-        type: String,
-        required: [true, 'el nombre es obligatorio'],
-        minlength: [3, 'Debe tener mínimo 3 caracteres']
-        //maxlength:  [7, 'Debe tener máximo 3 caracteres']
-    },
-
-    productospedido: {
-        type: String,
-        required: [true, 'el nombre es obligatorio'],
-        minlength: [3, 'Debe tener mínimo 3 caracteres']
-        //maxlength:  [7, 'Debe tener máximo 3 caracteres']
-    },
-
-    clientepedido: {
+    permisosrol: {
         type: String,
         required: [true, 'el nombre es obligatorio'],
         minlength: [3, 'Debe tener mínimo 3 caracteres']
@@ -41,6 +27,6 @@ const PedidoSchema = Schema({
     }
 })
 
-//Exportar la función PedidoSchema
-module.exports = model('Pedido',PedidoSchema)
+//Exportar la función PermisoSchema
+module.exports = model('Permiso',PermisoSchema)
 

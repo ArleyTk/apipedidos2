@@ -1,27 +1,38 @@
 const {response} = require('express')
 
 //Importación de los modelos
-const Pedido = require('../models/usuario')
+const Permiso = require('../models/usuario')
 
 //Método GET de la API
-const pedidoGet = async(req, res = response) =>{
+const permisoGet = async(req, res = response) =>{
     //const {nombre} = req.query //Desestructuración
+    const {_id} = req.query;
+    //Consultar todos los usuarios
+    try {
+        let permisos;
 
-    //Consultar todos los pedidos
-    const pedidos = await Pedido.find()
+        if (_id) {
+            // Si se proporciona un id, realizar una búsqueda por nombre
+            permisos = await Permiso.find({ _id: _id });
+        } else {
+            // Si no se proporciona un id, consultar todos los clientes
+            permisos = await Permiso.find();
+        }
 
-    res.json({  //Respuesta en JSON
-        pedidos
-    })   
+        res.json({ permisos });
+    } catch (error) {
+        console.error('Error al buscar clientes:', error);
+        res.status(500).json({ mensaje: 'Error interno del servidor' });
+    } 
 }
 
 //Método POST de la api
-const pedidoPost = async(req, res) => {
+const permisoPost = async(req, res) => {
     let mensaje = 'Inserción Exitosa'
     const body = req.body //Captura de atributos
     try {
-        const pedido = new Pedido(body) //Instanciando el objeto
-        await pedido.save() //Inserta en la colección
+        const permiso = new Permiso(body) //Instanciando el objeto
+        await permiso.save() //Inserta en la colección
     } catch (error) {
         mensaje = error
         console.log(error)
@@ -34,16 +45,14 @@ const pedidoPost = async(req, res) => {
 //Juan Sebastián Granada
 
 //Modifcación
-const pedidoPut = async(req, res = response) => {
+const permisoPut = async(req, res = response) => {
 
-    const {_id, idpedido, descpedido, preciopedido, fechapedido, productospedido, clientepedido} = req.body
+    const {_id, idrol, nombrerol, descrol, permisosrol} = req.body
     let mensaje = 'Modificación exitosa'
     try{
-         await Pedido.findOneAndUpdate({_id: _id}, {$set: {
-            idpedido:idpedido, descpedido:descpedido, preciopedido:preciopedido, fechapedido:fechapedido, productospedido: productospedido, clientepedido:clientepedido
-    }}) 
-         
-           
+         await Permiso.updateMany({_id: _id}, {$set: {
+            idrol: idrol, nombrerol:nombrerol, descrol:descrol, permisosrol:permisosrol
+         }})
     }
     catch(error){
         mensaje = 'Se presentaron problemas en la modificación.'
@@ -55,13 +64,13 @@ const pedidoPut = async(req, res = response) => {
 }
 
 //Eliminación
-const pedidoDelete = async(req, res) => {
+const permisoDelete = async(req, res) => {
 
     const {_id} = req.query
     let mensaje = 'La eliminiación se efectuó exitosamente.'
 
     try{
-        const pedido = await Pedido.deleteOne({_id: _id})
+        const permiso = await Permiso.deleteOne({_id: _id})
     }
     catch(error){
         mensaje = 'Se presentaron problemas en la eliminación.'
@@ -73,8 +82,8 @@ const pedidoDelete = async(req, res) => {
 }
 
 module.exports = {
-    pedidoGet,
-    pedidoPost,
-    pedidoPut,
-    pedidoDelete
+    permisoGet,
+    permisoPost,
+    permisoPut,
+    permisoDelete
 }
