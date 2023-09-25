@@ -1,7 +1,9 @@
 const {response} = require('express')
-
+const bcrypt = require('bcrypt') //Encriptar
 //Importación de los modelos
 const Pedido = require('../models/usuario')
+const jwt = require("jsonwebtoken")
+const { generarJWT } = require('../helpers/generar_jwt')
 
 //Método GET de la API
 const pedidoGet = async(req, res = response) =>{
@@ -29,10 +31,21 @@ const pedidoGet = async(req, res = response) =>{
 //Método POST de la api
 const pedidoPost = async(req, res) => {
     let mensaje = 'Inserción Exitosa'
+    let token = "";
+    const {idpedido} = req.body;
     const body = req.body //Captura de atributos
     try {
         const pedido = new Pedido(body) //Instanciando el objeto
         await pedido.save() //Inserta en la colección
+
+
+        if(idpedido!=""){
+            token = await generarJWT(idpedido);
+            res.cookie("token",token);
+
+            mensaje +=(' , su token es:'+token)
+        }
+
     } catch (error) {
         mensaje = error
         console.log(error)
